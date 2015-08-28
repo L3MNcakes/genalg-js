@@ -20,7 +20,10 @@
   "repository": "L3MNcakes/genalg-js",
   "devDependencies": {
     "browserify": "^11.0.1",
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "jsdoc": "~3.3.2",
+    "gulp-jsdoc": "~0.1.4",
+    "chalk": "~1.1.1"
   },
   "dependencies": {
     "lodash": "^3.10.1",
