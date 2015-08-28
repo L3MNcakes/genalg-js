@@ -1,0 +1,29 @@
+{
+  "name": "genalg-js",
+  "version": "0.0.1",
+  "description": "Genetic Algorithm library for JavaScript",
+  "main": "lib/genalg.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Genetic",
+    "Genetic",
+    "Algorithm",
+    "Algorithm",
+    "Artificial",
+    "Intelligence",
+    "AI"
+  ],
+  "author": "L3MNcakes",
+  "license": "GPL-3.0",
+  "repository": "L3MNcakes/genalg-js",
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "gulp": "^3.9.0"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "random-js": "^1.0.4"
+  }
+}
