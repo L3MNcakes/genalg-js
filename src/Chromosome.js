@@ -1,7 +1,6 @@
 /**
  * Provides an extendable {@link Chromosome} class
  *
- * @module GenAlg/Chromosome
  * @author L3MNcakes <L3MNcakes@gmail.com>
  **/
 (function() {
@@ -13,7 +12,6 @@
      * Creates a new Chromosome
      *
      * @constructor Chromosome
-     * @author L3MNcakes <L3MNcakes@gmail.com>
      * @param {Object}   options Options used to initialize the chromosome
      * @param {Mixed}    options.value The encoded value of the chromosome.
      * @param {Function} options.mutate Function that will be called when a chromosome has
@@ -21,7 +19,7 @@
      *                          set to the chromosome.
      * @param {Function} options.fitness Function that will calculate the fitness of the
      *                          chromosome. Should return a Number.
-     * @throws {TypeError} options.value is required
+     *
      * @throws {TypeError} options.mutate must be a function
      * @throws {TypeError} options.fitness must be a function
      **/
@@ -30,30 +28,81 @@
 
         // Default values
         options.value = options.value || null;
-        options.mutate = options.mutate || this.mutate || function() { };
-        options.fitenss = options.fitness || this.fitness || function() { };
+        options.mutate = options.mutate || Chromosome.prototype.mutate;
+        options.fitness = options.fitness || Chromosome.prototype.fitness;
 
         // Option validation
         if (!_.isFunction(options.mutate)) {
             throw new TypeError("Chromosome.Chromosome : options.mutate must be a function");
         }
         if (!_.isFunction(options.fitness)) {
-            throw new TypeError("Chromosome.Chromosome : options.fitness must be a defined function");
+            throw new TypeError("Chromosome.Chromosome : options.fitness must be a function");
         }
 
         // Assignment
         this.value = options.value;
+
         this.mutate = options.mutate;
+
         this.fitness = options.fitness;
     });
 
     /**
-     * Provides an interface for the Chromosome prototype to be extended
+     * Called to randomly mutate the Chromosome. Must be implemented by a sub-class or passed via
+     * the constructor when creating a new Chromosome.
+     *
+     * @memberof Chromosome
+     * @public
+     * @abstract
+     * @method
+     * @returns {Mixed} Returns a new value to be set on the Chromosome
+     * @throws {Error} mutate has not been implemented
+     **/
+    Chromosome.prototype.mutate = (function() {
+        throw new Error("Chromosome.mutate : mutate has not been implemented");
+    });
+
+    /**
+     * Called to evaluate the fitness of the Chromosome. Must be implemented by sub-prototype or
+     * passed via the constructor when creating a new Chromosome
+     *
+     * @memberof Chromosome
+     * @public
+     * @abstract
+     * @method
+     * @returns {Number} Returns a number representing the fitness of the Chromosome
+     * @throws {Error} fitness has not been implemented
+     **/
+    Chromosome.prototype.fitness = (function() {
+        throw new Error("Chromosome.fitness : fitness has not been implemented");
+    });
+
+    /**
+     * Allows Chromosome prototype to be easily extended. Essentially a shortcut for _.extend
+     *
+     * @memberof Chromosome
+     * @public
      * @static
      * @method
+     * @param {Object} obj An object of properties which will be extended to the prototype
+     * @returns {Function} A constructor for the new extended prototype
+     * @example var MySubChromosome = Chromosome.extend({
+     *      mutate: function() {
+     *          // Mutator
+     *      },
+     *      fitness: function() {
+     *          // Fitness
+     *      }
+     * });
      **/
     Chromosome.extend = (function(obj) {
-        return _.extend(this, obj);
+        var child = this.constructor;
+
+        _.extend(child, this);
+
+        if(obj) _.extend(child.prototype, obj);
+
+        return child;
     });
 
     module.exports = Chromosome;
