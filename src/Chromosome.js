@@ -1,6 +1,5 @@
 /**
- * Provides an extendable {@link Chromosome} class
- *
+ * Chromosome.js
  * @author L3MNcakes <L3MNcakes@gmail.com>
  **/
 (function() {
