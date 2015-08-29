@@ -1,3 +1,9 @@
+/**
+ * Provides an extendable {@link Chromosome} class
+ *
+ * @module GenAlg/Chromosome
+ * @author L3MNcakes <L3MNcakes@gmail.com>
+ **/
 (function() {
     "use strict";
 
@@ -6,7 +12,7 @@
     /**
      * Creates a new Chromosome
      *
-     * @class Chromosome
+     * @constructor Chromosome
      * @author L3MNcakes <L3MNcakes@gmail.com>
      * @param {Object}   options Options used to initialize the chromosome
      * @param {Mixed}    options.value The encoded value of the chromosome.
@@ -22,21 +28,32 @@
     var Chromosome = (function(options) {
         options = options || {};
 
-        if (_.isUndefined(options.value)) {
-            throw new TypeError("Chromosome : options.value is required");
-        }
+        // Default values
+        options.value = options.value || null;
+        options.mutate = options.mutate || this.mutate || function() { };
+        options.fitenss = options.fitness || this.fitness || function() { };
 
+        // Option validation
         if (!_.isFunction(options.mutate)) {
-            throw new TypeError("Chromosome : options.mutate must be a function");
+            throw new TypeError("Chromosome.Chromosome : options.mutate must be a function");
         }
-
         if (!_.isFunction(options.fitness)) {
-            throw new TypeError("Chromosome : options.fitness must be a function");
+            throw new TypeError("Chromosome.Chromosome : options.fitness must be a defined function");
         }
 
+        // Assignment
         this.value = options.value;
         this.mutate = options.mutate;
         this.fitness = options.fitness;
+    });
+
+    /**
+     * Provides an interface for the Chromosome prototype to be extended
+     * @static
+     * @method
+     **/
+    Chromosome.extend = (function(obj) {
+        return _.extend(this, obj);
     });
 
     module.exports = Chromosome;
