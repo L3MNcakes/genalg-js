@@ -12,7 +12,8 @@ describe("Chromosome", function() {
         this.testOptions = {
             value: "Test",
             mutate: function() { return "Mutate"; },
-            fitness: function() { return 1; }
+            fitness: function() { return 1; },
+            randomize: function() { return "Random"; }
         };
     });
 
@@ -26,6 +27,7 @@ describe("Chromosome", function() {
             assert.strictEqual(c.value, this.testOptions.value);
             assert.strictEqual(c.mutate, this.testOptions.mutate);
             assert.strictEqual(c.fitness, this.testOptions.fitness);
+            assert.strictEqual(c.randomize, this.testOptions.randomize);
         });
 
         it("trows TypeError when options.mutate is defined but not a function", function() {
@@ -46,6 +48,16 @@ describe("Chromosome", function() {
                 });
 
             assert.throws(fn, TypeError, /options.fitness must be a function/);
+        });
+
+        it("throws TypeError when options.randomize is defined but not a function", function() {
+            var testOptions = this.testOptions,
+                fn = (function( ) {
+                    testOptions.randomize = "NotAFunction";
+                    new Chromosome(testOptions);
+                });
+
+            assert.throws(fn, TypeError, /options.randomize must be a function/);
         });
 
         it("is extendable", function() {
@@ -78,6 +90,17 @@ describe("Chromosome", function() {
             var c = new Chromosome();
 
             assert.throws(c.fitness, Error, /fitness has not been implemented/);
+        });
+    });
+
+    /**
+     * Randomize Tests
+     **/
+    describe("randomize", function() {
+        it("throws Error that it needs implemented", function() {
+            var c = new Chromosome();
+
+            assert.throws(c.randomize, Error, /randomize has not been implemented/);
         });
     });
 });

@@ -36,7 +36,7 @@ gulp.task('doc', function() {
         path: 'ink-docstrap',
         systemName: 'GenAlg.js',
         navType: 'vertical',
-        theme: 'superhero',
+        theme: 'readable',
         linenums: true,
         collapseSymbols: false,
         inverseNav: false
