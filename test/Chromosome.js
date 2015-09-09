@@ -65,9 +65,9 @@ describe("Chromosome", function() {
                 c1 = new Chromosome(this.testOptions),
                 c2 = new SubChromosome();
 
-            assert.strictEqual(c1.value, c2.value);
-            assert.strictEqual(c1.fitness, c2.fitness);
-            assert.strictEqual(c1.mutate, c2.mutate);
+            assert.equal(c1.fitness, c2.fitness);
+            assert.equal(c1.mutate, c2.mutate);
+            assert.equal(c1.randomize, c2.randomize);
         });
     });
 

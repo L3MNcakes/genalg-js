@@ -33,9 +33,9 @@
 
         // Default values
         options.value = options.value || null;
-        options.mutate = options.mutate || Chromosome.prototype.mutate;
-        options.fitness = options.fitness || Chromosome.prototype.fitness;
-        options.randomize = options.randomize || Chromosome.prototype.randomize;
+        options.mutate = options.mutate || this.mutate;
+        options.fitness = options.fitness || this.fitness;
+        options.randomize = options.randomize || this.randomize;
 
         // Option validation
         if (!_.isFunction(options.mutate)) {
@@ -119,9 +119,13 @@
      * });
      **/
     Chromosome.extend = (function(obj) {
-        var child = this.constructor;
+        var parent = this,
+            child = function() { return parent.apply(this, arguments); };
 
-        _.extend(child, this);
+        _.extend(child, parent);
+
+        child.prototype = Object.create(parent);
+        child.prototype.constructor = this;
 
         if(obj) _.extend(child.prototype, obj);
 
